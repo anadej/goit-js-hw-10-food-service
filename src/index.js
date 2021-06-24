@@ -15,20 +15,28 @@ const Theme = {
   DARK: 'dark-theme',
 };
 
+//проверка текущей темы при загрузки страницы
+window.onload = checkTheme();
+
+function checkTheme() {
+  const localStorageTheme = localStorage.getItem('theme');
+  if (localStorageTheme !== null && localStorageTheme === Theme.DARK) {
+    document.body.classList.add(Theme.DARK);
+    refs.checkboxRef.checked = true;
+  }
+}
+
+//отслеживаем нажатие чекбокса переключения темы
 refs.checkboxRef.addEventListener('change', changeTheme);
 
-console.log(refs.checkboxRef);
-
 function changeTheme(e) {
-  const checkbox = e.currentTarget;
-
-  console.log(checkbox);
-
-  if (checkbox.checked) {
+  if (this.checked) {
     document.body.classList.remove(Theme.LIGHT);
     document.body.classList.add(Theme.DARK);
+    localStorage.setItem('theme', Theme.DARK);
   } else {
     document.body.classList.remove(Theme.DARK);
     document.body.classList.add(Theme.LIGHT);
+    localStorage.setItem('theme', Theme.LIGHT);
   }
 }
